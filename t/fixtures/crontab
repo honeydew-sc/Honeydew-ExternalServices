@@ -1,0 +1,5 @@
+MAILTO="sample"
+
+* * * * * ls -al
+
+# blank lines
