@@ -4,26 +4,18 @@ use strict;
 use warnings;
 
 use Cwd qw/abs_path/;
+use feature qw/state/;
 use File::Spec;
 use File::Basename qw/dirname/;
 use Honeydew::ExternalServices::Crontab qw/add_crontab_section remove_crontab_section/;
 use Test::Spec;
 use Test::Deep;
 
-
 describe 'Crontab manager' => sub {
     my ($crontab, $section);
-    my $fixture_filename = File::Spec->catfile(
-        abs_path( dirname(__FILE__) ),
-        'fixtures/crontab'
-    );
-
-    open (my $fh, '<', $fixture_filename);
-    my @fixture = map { chomp; $_ } <$fh>;
-    close ($fh);
 
     before each => sub {
-        $crontab = \@fixture;
+        $crontab = load_fixture_crontab();
         $section = '* * * * * new section';
     };
 
@@ -100,8 +92,22 @@ describe 'Crontab manager' => sub {
         ]);
     };
 
-
-
 };
+
+sub load_fixture_crontab {
+    state @fixture;
+    return \@fixture if scalar @fixture;
+
+    my $fixture_filename = File::Spec->catfile(
+        abs_path( dirname(__FILE__) ),
+        'fixtures/crontab'
+    );
+
+    open (my $fh, '<', $fixture_filename);
+    @fixture = map { chomp; $_ } <$fh>;
+    close ($fh);
+
+    return \@fixture;
+}
 
 runtests;
