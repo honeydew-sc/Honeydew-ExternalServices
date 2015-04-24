@@ -1,5 +1,8 @@
 Revision history for perl module Honeydew-ExternalServices
 
+0.02 2015-04-24
+ - Fix return type for get_existing_crontab
+
 0.01 2015-04-24
  - Add daemonize function for forking a perl process into a long running one
  - Refactor crontab mangaement into Honeydew::ExternalServices::Crontab
