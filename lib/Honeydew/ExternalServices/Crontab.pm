@@ -1,5 +1,5 @@
 package Honeydew::ExternalServices::Crontab;
-$Honeydew::ExternalServices::Crontab::VERSION = '0.01';
+$Honeydew::ExternalServices::Crontab::VERSION = '0.02';
 # ABSTRACT: Idempotent crontab updating
 use strict;
 use warnings;
@@ -31,7 +31,7 @@ sub _create_crontab_stub {
 
 
 sub _get_existing_crontab {
-    return split("\n", `crontab -l`);
+    return [ split("\n", `crontab -l`) ];
 }
 
 
@@ -80,7 +80,7 @@ Honeydew::ExternalServices::Crontab - Idempotent crontab updating
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 SYNOPSIS
 
