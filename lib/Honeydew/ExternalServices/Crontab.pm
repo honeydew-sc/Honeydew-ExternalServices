@@ -73,7 +73,7 @@ sub _create_crontab_stub {
 
 
 sub _get_existing_crontab {
-    return split("\n", `crontab -l`);
+    return [ split("\n", `crontab -l`) ];
 }
 
 =method remove_existing_section( $label[, $crontab ] )
