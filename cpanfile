@@ -1,4 +1,5 @@
 requires "Exporter" => "0";
+requires "POSIX" => "0";
 requires "strict" => "0";
 requires "warnings" => "0";
 

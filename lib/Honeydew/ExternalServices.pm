@@ -3,6 +3,7 @@ package Honeydew::ExternalServices;
 # ABSTRACT: Helper functions for managing Honeydew's external services
 use strict;
 use warnings;
+use POSIX qw/setsid/;
 
 require Exporter;
 our @ISA = qw/Exporter/;
