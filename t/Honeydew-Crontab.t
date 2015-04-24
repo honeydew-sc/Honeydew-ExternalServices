@@ -42,20 +42,6 @@ describe 'Crontab manager' => sub {
         ]);
     };
 
-    it 'should remove an existing section from a crontab' => sub {
-        my $filtered_crontab = remove_crontab_section( 'remove me', $crontab );
-
-        cmp_deeply( $filtered_crontab, [
-            '',
-            '* * * * * ls -al',
-            '',
-            '# remains',
-            '',
-            '# blank lines',
-            ''
-        ]);
-    };
-
     it 'should move an existing label to the bottom' => sub {
         my $replaced_crontab = add_crontab_section( 'remove me', [ $section ], $crontab );
 
@@ -90,6 +76,35 @@ describe 'Crontab manager' => sub {
             '* * * * * new section',
             '### end: remove me',
         ]);
+    };
+
+    describe 'removal' => sub {
+        it 'should filter existing sections' => sub {
+            my $filtered_crontab = remove_crontab_section( 'remove me', $crontab );
+
+            cmp_deeply( $filtered_crontab, [
+                '',
+                '* * * * * ls -al',
+                '',
+                '# remains',
+                '',
+                '# blank lines',
+                ''
+            ]);
+        };
+
+        it 'should only add an empty line if the section does not exist' => sub {
+            my $same_crontab = remove_crontab_section( 'missing section', $crontab );
+
+            cmp_deeply( $same_crontab, [ @$crontab, '' ]);
+        };
+
+        it 'should remove sections idempotently' => sub {
+            my $removed_crontab = remove_crontab_section( 'missing', $crontab );
+            my $idempotent_crontab = remove_crontab_section( 'missing', $removed_crontab );
+
+            cmp_deeply( $removed_crontab, $idempotent_crontab );
+        };
     };
 
 };

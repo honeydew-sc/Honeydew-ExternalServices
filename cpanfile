@@ -8,6 +8,7 @@ on 'test' => sub {
   requires "File::Spec" => "0";
   requires "Test::Deep" => "0";
   requires "Test::Spec" => "0";
+  requires "feature" => "0";
 };
 
 on 'configure' => sub {
