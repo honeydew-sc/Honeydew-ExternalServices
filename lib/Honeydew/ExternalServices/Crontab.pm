@@ -3,11 +3,6 @@ package Honeydew::ExternalServices::Crontab;
 # ABSTRACT: Idempotent crontab updating
 use strict;
 use warnings;
-use File::Basename qw/dirname/;
-use Cwd qw/abs_path/;
-use feature qw/say/;
-use Test::More;
-use Test::Deep;
 
 require Exporter;
 our @ISA = qw/Exporter/;
