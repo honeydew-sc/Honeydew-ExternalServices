@@ -108,6 +108,9 @@ sub _read_file {
     my (@file) = <$fh>;
     close ($fh);
 
+    # trim newlines, as we're putting everything in arrays
+    @file = map { chomp; $_ } @file;
+
     return \@file;
 }
 
