@@ -5,9 +5,10 @@ use warnings;
 
 use Cwd qw/abs_path/;
 use feature qw/state/;
-use File::Spec;
 use File::Basename qw/dirname/;
-use Honeydew::ExternalServices::Crontab qw/add_crontab_section remove_crontab_section/;
+use File::Spec;
+use File::Temp qw/tempfile/;
+use Honeydew::ExternalServices::Crontab qw/add_file_to_crontab add_crontab_section remove_crontab_section/;
 use Test::Spec;
 use Test::Deep;
 
@@ -76,6 +77,39 @@ describe 'Crontab manager' => sub {
             '* * * * * new section',
             '### end: remove me',
         ]);
+    };
+
+    describe 'file addition' => sub {
+        my ($fh, $filename, $dir, $string);
+
+        before each => sub {
+            ($fh, $filename) = tempfile();
+            $dir = abs_path(dirname($filename));
+            $string = '* __DIR__/binary';
+        };
+
+        after each => sub {
+            # in case it's not already closed
+            close $fh;
+        };
+
+        it 'should interpolate __DIR__ in strings ' => sub {
+            my $interpolated = Honeydew::ExternalServices::Crontab::_interpolate( [ $string ] , $filename );
+            is( $interpolated->[0], '* ' . $dir . '/binary' );
+        };
+
+        it 'should append to file contents' => sub {
+            print $fh $string;
+            close $fh;
+            my $crontab = add_file_to_crontab( 'test', $filename, [''] );
+            cmp_deeply($crontab, [
+                '',                # starting contents
+                '### start: test', # test section
+                '* ' . $dir . '/binary',
+                '### end: test',
+            ]);
+
+        };
     };
 
     describe 'removal' => sub {
