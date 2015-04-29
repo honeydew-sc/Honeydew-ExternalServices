@@ -6,6 +6,7 @@ MANIFEST
 META.json
 META.yml
 Makefile.PL
+bin/hd-crontab
 cpanfile
 dist.ini
 lib/Honeydew/ExternalServices.pm

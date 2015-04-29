@@ -16,24 +16,27 @@ my %WriteMakefileArgs = (
     "ExtUtils::MakeMaker" => 0
   },
   "DISTNAME" => "Honeydew-ExternalServices",
-  "EXE_FILES" => [],
+  "EXE_FILES" => [
+    "bin/hd-crontab"
+  ],
   "LICENSE" => "perl",
   "NAME" => "Honeydew::ExternalServices",
   "PREREQ_PM" => {
+    "Cwd" => 0,
     "Exporter" => 0,
+    "File::Basename" => 0,
     "POSIX" => 0,
+    "feature" => 0,
     "strict" => 0,
     "warnings" => 0
   },
   "TEST_REQUIRES" => {
-    "Cwd" => 0,
-    "File::Basename" => 0,
     "File::Spec" => 0,
+    "File::Temp" => 0,
     "Test::Deep" => 0,
-    "Test::Spec" => 0,
-    "feature" => 0
+    "Test::Spec" => 0
   },
-  "VERSION" => "0.02",
+  "VERSION" => "0.03",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -46,6 +49,7 @@ my %FallbackPrereqs = (
   "ExtUtils::MakeMaker" => 0,
   "File::Basename" => 0,
   "File::Spec" => 0,
+  "File::Temp" => 0,
   "POSIX" => 0,
   "Test::Deep" => 0,
   "Test::Spec" => 0,

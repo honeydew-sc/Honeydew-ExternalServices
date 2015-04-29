@@ -1,5 +1,5 @@
 package Honeydew::ExternalServices;
-$Honeydew::ExternalServices::VERSION = '0.02';
+$Honeydew::ExternalServices::VERSION = '0.03';
 # ABSTRACT: Helper functions for managing Honeydew's external services
 use strict;
 use warnings;
@@ -36,7 +36,7 @@ Honeydew::ExternalServices - Helper functions for managing Honeydew's external s
 
 =head1 VERSION
 
-version 0.02
+version 0.03
 
 =head1 SYNOPSIS
 

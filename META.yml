@@ -3,12 +3,10 @@ abstract: "Helper functions for managing Honeydew's external services"
 author:
   - 'Daniel Gempesaw <gempesaw@gmail.com>'
 build_requires:
-  Cwd: '0'
-  File::Basename: '0'
   File::Spec: '0'
+  File::Temp: '0'
   Test::Deep: '0'
   Test::Spec: '0'
-  feature: '0'
 configure_requires:
   ExtUtils::MakeMaker: '0'
 dynamic_config: 0
@@ -19,12 +17,15 @@ meta-spec:
   version: '1.4'
 name: Honeydew-ExternalServices
 requires:
+  Cwd: '0'
   Exporter: '0'
+  File::Basename: '0'
   POSIX: '0'
+  feature: '0'
   strict: '0'
   warnings: '0'
 resources:
   bugtracker: https://github.com/honeydew-sc/Honeydew-ExternalServices/issues
   homepage: https://github.com/honeydew-sc/Honeydew-ExternalServices
   repository: https://github.com/honeydew-sc/Honeydew-ExternalServices.git
-version: '0.02'
+version: '0.03'

@@ -1,12 +1,14 @@
 package Honeydew::ExternalServices::Crontab;
-$Honeydew::ExternalServices::Crontab::VERSION = '0.02';
-# ABSTRACT: Idempotent crontab updating
+$Honeydew::ExternalServices::Crontab::VERSION = '0.03';
+# ABSTRACT: Idempotent crontab management
 use strict;
 use warnings;
+use Cwd qw/abs_path/;
+use File::Basename qw/dirname/;
 
 require Exporter;
 our @ISA = qw/Exporter/;
-our @EXPORT_OK = qw/add_crontab_section remove_crontab_section/;
+our @EXPORT_OK = qw/add_file_to_crontab add_crontab_section remove_crontab_section/;
 
 
 sub add_crontab_section {
@@ -29,9 +31,48 @@ sub _create_crontab_stub {
     return [ $header, @$section, $footer ];
 }
 
-
 sub _get_existing_crontab {
     return [ split("\n", `crontab -l`) ];
+}
+
+
+sub add_file_to_crontab {
+    my ($label, $file, $crontab) = @_;
+
+    my $section = _interpolate(
+        _read_file($file),
+        $file
+    );
+
+    return add_crontab_section( $label, $section, $crontab );
+}
+
+sub _read_file {
+    my ($filename) = @_;
+
+    open (my $fh, '<', $filename);
+    my (@file) = <$fh>;
+    close ($fh);
+
+    # trim newlines, as we're putting everything in arrays
+    @file = map { chomp; $_ } @file;
+
+    return \@file;
+}
+
+sub _interpolate {
+    my ($contents, $file) = @_;
+
+    my $abs_file = abs_path($file);
+    my $here_dir = abs_path(dirname($abs_file));
+
+    my @crontab = ();
+    foreach my $line (@$contents) {
+        $line =~ s/__DIR__/$here_dir/;
+        push @crontab, $line;
+    }
+
+    return \@crontab;
 }
 
 
@@ -76,11 +117,11 @@ __END__
 
 =head1 NAME
 
-Honeydew::ExternalServices::Crontab - Idempotent crontab updating
+Honeydew::ExternalServices::Crontab - Idempotent crontab management
 
 =head1 VERSION
 
-version 0.02
+version 0.03
 
 =head1 SYNOPSIS
 
@@ -101,7 +142,8 @@ Meanwhile,
 
 We need a bunch of different services for Honeydew and Kabocha to
 run. They all want to put things in the crontab. This module enables
-us to make sections in the crontab by using add_crontab_section.
+us to make sections in the crontab by using L</add_crontab_section>
+and L</add_file_to_crontab. See also C<bin/hd-crontab>.
 
 =head1 METHODS
 
@@ -124,6 +166,16 @@ The label will be used in a comment to denote sections like such:
 The section will be inserted between the labels.
 
 This method is idempotent.
+
+=head2 add_file_to_crontab ( $label, $file[, $crontab ] )
+
+This is the main driver of the C<hd-crontab> command. It takes a
+String C<$label> for your section, the String C<$file> to find it in,
+and optionally (primarily for testing) an existing ArrayRef
+C<$crontab> to append it to.
+
+It returns an ArrayRef of the crontab with the contents of C<$file>
+appended to the end in the C<$label> section.
 
 =head2 remove_existing_section( $label[, $crontab ] )
 

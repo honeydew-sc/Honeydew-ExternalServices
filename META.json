@@ -28,20 +28,21 @@
       },
       "runtime" : {
          "requires" : {
+            "Cwd" : "0",
             "Exporter" : "0",
+            "File::Basename" : "0",
             "POSIX" : "0",
+            "feature" : "0",
             "strict" : "0",
             "warnings" : "0"
          }
       },
       "test" : {
          "requires" : {
-            "Cwd" : "0",
-            "File::Basename" : "0",
             "File::Spec" : "0",
+            "File::Temp" : "0",
             "Test::Deep" : "0",
-            "Test::Spec" : "0",
-            "feature" : "0"
+            "Test::Spec" : "0"
          }
       }
    },
@@ -57,6 +58,6 @@
          "web" : "https://github.com/honeydew-sc/Honeydew-ExternalServices"
       }
    },
-   "version" : "0.02"
+   "version" : "0.03"
 }
 

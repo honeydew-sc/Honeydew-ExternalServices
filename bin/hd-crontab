@@ -1,0 +1,81 @@
+#! /usr/bin/perl
+
+# PODNAME: hd-crontab
+use strict;
+use warnings;
+use feature qw/say/;
+use Honeydew::ExternalServices::Crontab qw/add_file_to_crontab/;
+
+
+my ($label, $file) = @ARGV;
+die 'Something was wrong with your arguments. Please provide a label and a file:
+
+USAGE:
+
+    hd-crontab browsermob ./crontab | crontab
+
+' unless $label and $file;
+
+say $_ for @{ add_file_to_crontab( $label, $file ) };
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+hd-crontab
+
+=head1 VERSION
+
+version 0.03
+
+=head1 SYNOPSIS
+
+    $ hd-crontab label ./crontab | crontab
+
+=head1 DESCRIPTION
+
+C<hd-crontab> takes a label and a file, and it will print to STDOUT
+your crontab with that file's contents appended in a section. It does
+this idempotently. You'll most likely want to pipe it to your crontab
+after reviewing the output:
+
+    $ hd-crontab label ./crontab           # double check that it worked
+    $ hd-crontab label ./crontab | crontab # overwrite your crontab
+
+=head1 SEE ALSO
+
+Please see those modules/websites for more information related to this module.
+
+=over 4
+
+=item *
+
+L<Honeydew::ExternalServices|Honeydew::ExternalServices>
+
+=back
+
+=head1 BUGS
+
+Please report any bugs or feature requests on the bugtracker website
+https://github.com/honeydew-sc/Honeydew-ExternalServices/issues
+
+When submitting a bug or request, please include a test-file or a
+patch to an existing test-file that illustrates the bug or desired
+feature.
+
+=head1 AUTHOR
+
+Daniel Gempesaw <gempesaw@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2015 by Daniel Gempesaw.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
