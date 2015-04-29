@@ -1,0 +1,34 @@
+#! /usr/bin/perl
+
+# PODNAME: hd-crontab
+use strict;
+use warnings;
+use feature qw/say/;
+use Honeydew::ExternalServices::Crontab qw/add_file_to_crontab/;
+
+=head1 SYNOPSIS
+
+    $ hd-crontab label ./crontab | crontab
+
+=head1 DESCRIPTION
+
+C<hd-crontab> takes a label and a file, and it will print to STDOUT
+your crontab with that file's contents appended in a section. It does
+this idempotently. You'll most likely want to pipe it to your crontab
+after reviewing the output:
+
+    $ hd-crontab label ./crontab           # double check that it worked
+    $ hd-crontab label ./crontab | crontab # overwrite your crontab
+
+=cut
+
+my ($label, $file) = @ARGV;
+die 'Something was wrong with your arguments. Please provide a label and a file:
+
+USAGE:
+
+    hd-crontab browsermob ./crontab | crontab
+
+' unless $label and $file;
+
+say $_ for @{ add_file_to_crontab( $label, $file ) };

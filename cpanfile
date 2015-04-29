@@ -2,6 +2,7 @@ requires "Cwd" => "0";
 requires "Exporter" => "0";
 requires "File::Basename" => "0";
 requires "POSIX" => "0";
+requires "feature" => "0";
 requires "strict" => "0";
 requires "warnings" => "0";
 
@@ -10,7 +11,6 @@ on 'test' => sub {
   requires "File::Temp" => "0";
   requires "Test::Deep" => "0";
   requires "Test::Spec" => "0";
-  requires "feature" => "0";
 };
 
 on 'configure' => sub {
