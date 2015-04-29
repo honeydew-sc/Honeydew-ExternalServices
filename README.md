@@ -6,7 +6,7 @@ Honeydew::ExternalServices - Helper functions for managing Honeydew's external s
 
 # VERSION
 
-version 0.01
+version 0.03
 
 # SYNOPSIS
 
