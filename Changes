@@ -1,5 +1,8 @@
 Revision history for perl module Honeydew-ExternalServices
 
+0.03 2015-04-29
+ - Add executable for appending file contents to crontab
+
 0.02 2015-04-24
  - Fix return type for get_existing_crontab
 
